@@ -39,3 +39,5 @@ Look around [the target](http://photogram-final.matchthetarget.com/) and try to 
   - it lists the photos that are liked by the people the user is following
 
 
+rails g draft:resource photo owner_id:integer caption:text likes_count:integer comments_count:integer image:string
+rails g draft:resource photo caption:text image:string owner_id:integer comments_count:integer likes_count:integer

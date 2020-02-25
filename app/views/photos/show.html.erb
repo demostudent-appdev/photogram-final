@@ -1,0 +1,131 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      Photo #<%= @photo.id %> details
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/photos" class="btn btn-block btn-outline-secondary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/delete_photo/<%= @photo.id %>" class="btn btn-block btn-outline-secondary">
+          Delete photo
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Caption
+      </dt>
+      <dd>
+        <%= @photo.caption %>
+      </dd>
+
+      <dt>
+        Image
+      </dt>
+      <dd>
+        <%= @photo.image %>
+      </dd>
+
+      <dt>
+        Owner
+      </dt>
+      <dd>
+        <%= @photo.owner_id %>
+      </dd>
+
+      <dt>
+        Comments count
+      </dt>
+      <dd>
+        <%= @photo.comments_count %>
+      </dd>
+
+      <dt>
+        Likes count
+      </dt>
+      <dd>
+        <%= @photo.likes_count %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@photo.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@photo.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h2>
+      Edit photo
+    </h2>
+
+    <form action="/modify_photo/<%= @photo.id %>"  method="post" >
+      <div class="form-group">
+        <label for="caption_box">
+          Caption
+        </label>
+
+        <textarea id="caption_box" name="query_caption" class="form-control" rows="3"><%= @photo.caption %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="image_box">
+          Image
+        </label>
+
+        <input type="text" id="image_box" name="query_image" class="form-control" value="<%= @photo.image %>">
+      </div>
+
+      <div class="form-group">
+        <label for="owner_id_box">
+          Owner
+        </label>
+
+        <input type="text" id="owner_id_box" name="query_owner_id" class="form-control" value="<%= @photo.owner_id %>">
+      </div>
+
+      <div class="form-group">
+        <label for="comments_count_box">
+          Comments count
+        </label>
+
+        <input type="text" id="comments_count_box" name="query_comments_count" class="form-control" value="<%= @photo.comments_count %>">
+      </div>
+
+      <div class="form-group">
+        <label for="likes_count_box">
+          Likes count
+        </label>
+
+        <input type="text" id="likes_count_box" name="query_likes_count" class="form-control" value="<%= @photo.likes_count %>">
+      </div>
+
+      <button class="btn btn-block btn-outline-secondary">
+        Update photo
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
