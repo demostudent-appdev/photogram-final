@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Landing page
   get("/", { :controller => "users", :action => "index" })
+  get("/users", { :controller => "users", :action => "index" })
   
   # Routes for the User account:
 
@@ -16,6 +17,9 @@ Rails.application.routes.draw do
   
   # DELETE RECORD
   get("/cancel_user_account", { :controller => "users", :action => "destroy" })
+
+  # FOLLOW
+  post("insert_follow_request", { :controller => "users", :action => "create_follow_request" })
 
   # ------------------------------
 
