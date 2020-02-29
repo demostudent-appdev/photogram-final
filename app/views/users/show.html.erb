@@ -1,0 +1,107 @@
+
+<h1><%= @user.username %></h1>
+
+<dl>
+  <dt>Private</dt>
+  <dd><%= @user.is_private %></dd>
+  <dt>Followers</dt>
+  <dd>
+    <div> <%= @user.followers.count %></div>
+    <% if @current_user.id == @user.id%>
+      <h4>Pending follow requests</h4>
+        <ul>
+          To be implemented
+        </ul>
+    </dd>
+    <% end %>
+  <dt>Following</dt>
+  <dd><%= @user.following.count %></dd>
+
+  <% if @current_user.id == @user.id%>
+    <dt>Edit user</dt>
+    <dd>
+      <form action=<%="/modify_user/#{@user.id}"%> method="post">
+        <label for="browser_username">Username</label>
+        <input id="browser_username" type="text" name="query_username" placeholder="Enter a username..."
+          value=<%= @user.username%>>
+
+        <label for="browser_private">Private?</label>
+        <input id="browser_private" type="checkbox" name="query_private" 
+          value="1" <%= @current_user.is_private ? "checked" : "" %>>
+
+        <button>Update user</button>
+      </form>
+    </dd>
+  <% end %>
+</dl>
+
+<nav>
+  <ul>
+    <li>
+      <a href=<%="/users/#{@user.username}"%>>Profile</a>
+    </li>
+    <li>
+      <a href="/">Liked photos</a>
+    </li>
+    <li>
+      <a href="/">Feed</a>
+    </li>
+    <li>
+      <a href="/">Discover</a>
+    </li>
+  </ul>
+</nav>
+
+<h2>Own photos (<%=@user.own_photos.count%>)</h2>
+
+<table border="1">
+  <tr>
+    <th>
+      Image
+    </th>
+    <th>
+      Owner
+    </th>
+    <th>
+      Caption
+    </th>
+    <th>
+      Posted
+    </th>
+    <th>
+      Likes
+    </th>
+    <th></th>
+  </tr>
+
+  <% @user.own_photos.each do |photo| %>
+  <tr>
+    <td>
+      <img src="<%= photo.image %>">
+    </td>
+
+    <td>
+      <%= photo.poster.username %>
+    </td>
+
+    <td>
+      <%= photo.caption %>
+    </td>
+
+    <td>
+      <%= time_ago_in_words(photo.created_at) %>
+    </td>
+
+    <td>
+      <%= photo.likes.count %>
+    </td>
+    
+    <td>
+      <a href="/photos/<%= photo.id %>">
+        Show details
+      </a>
+    </td>
+  </tr>
+
+  <% end %>
+</table>

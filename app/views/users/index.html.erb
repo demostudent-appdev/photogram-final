@@ -33,10 +33,21 @@
 
     <td>
       <% if session.fetch(:user_id).present?%>
-        <form action="/insert_follow_request" method="post">
-          <input type="hidden" name="query_recipient_id" value=<%= user.id %>>
-          <button>Follow</button>
-        </form>
+        <!-- If not following a user (not_found)-->
+        <% if @current_user.follow_status?(user.id) == "not_found"%>
+          <form action="/insert_follow_request" method="post">
+            <input type="hidden" name="query_recipient_id" value=<%= user.id %>>
+            <button>Follow</button>
+          </form>
+        <!-- If already following a user (accepted)-->
+        <% elsif @current_user.follow_status?(user.id) == "accepted"%>
+          <a href="/delete_follow_request/<%= user.id %>">Unfollow</a>
+        <!-- If follow request is pending (pending)Request sent. Cancel -->
+        <% elsif @current_user.follow_status?(user.id) == "pending"%>
+          Request sent. <a href="/delete_follow_request/<%= user.id %>">Cancel</a>
+        <% else %>
+        <!-- If user was blocked (rejected) Nothing to show-->
+        <% end %>
       <% end %>
     </td>
 
