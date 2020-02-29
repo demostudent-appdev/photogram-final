@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Landing page
+  get("/", { :controller => "users", :action => "index" })
+  
   # Routes for the User account:
 
   # SIGN UP FORM
