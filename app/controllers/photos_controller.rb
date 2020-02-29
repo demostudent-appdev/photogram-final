@@ -14,15 +14,15 @@ class PhotosController < ApplicationController
     @photo = Photo.new
     @photo.caption = params.fetch("query_caption")
     @photo.image = params.fetch("query_image")
-    @photo.owner_id = params.fetch("query_owner_id")
-    @photo.comments_count = params.fetch("query_comments_count")
-    @photo.likes_count = params.fetch("query_likes_count")
+    @photo.owner_id = @current_user.id
+    @photo.comments_count = 0
+    @photo.likes_count = 0
 
     if @photo.valid?
       @photo.save
-      redirect_to("/photos", { :notice => "Photo created successfully." })
+      redirect_to("/photos", { :notice => "Photo uploaded successfully." })
     else
-      redirect_to("/photos", { :notice => "Photo failed to create successfully." })
+      redirect_to("/photos", { :notice => "Photo failed to be uploaded." })
     end
   end
 

@@ -6,6 +6,19 @@
   </div>
 </div>
 
+<% if (session.fetch(:user_id).present?)%>
+<form action="/insert_photo" method="post">
+  <label for="browser_input">Image</label>
+  <input id="browser_input" type="text" name="query_image" placeholder="Enter a URL for the image...">
+  <label for="browser_caption">Caption</label>
+  <textarea id="browser_caption" name="query_caption" placeholder="Enter a caption for the photo..."></textarea>
+  <button>Add photo</button>
+</form>
+
+<hr>
+
+<% end %>
+
 <div class="row mb-3">
   <div class="col-md-12">
     <table class="table" border="1">
