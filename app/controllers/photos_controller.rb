@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
   def index
     @photos = Photo.all.order({ :created_at => :desc })
-    render({ :template => "photos/index.html.erb" })
+    render({ :template => "photos/photos.html.erb" })
   end
 
   def show

@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   get("/edit_user_profile", { :controller => "users", :action => "edit_registration_form" })       
   # UPDATE RECORD
   post("/modify_user", { :controller => "users", :action => "update" })
-  
   # DELETE RECORD
   get("/cancel_user_account", { :controller => "users", :action => "destroy" })
 
@@ -40,11 +39,9 @@ Rails.application.routes.draw do
           
   # READ
   get("/photos", { :controller => "photos", :action => "index" })
-  
   get("/photos/:path_id", { :controller => "photos", :action => "show" })
   
   # UPDATE
-  
   post("/modify_photo/:path_id", { :controller => "photos", :action => "update" })
   
   # DELETE
