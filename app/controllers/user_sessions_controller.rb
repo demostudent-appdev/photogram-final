@@ -11,12 +11,11 @@ class UserSessionsController < ApplicationController
     
     if user != nil
       are_they_legit = user.authenticate(the_supplied_password)
-    
       if are_they_legit == false
-        redirect_to("/user_sign_in", { :alert => "Incorrect password." })
+        redirect_to("/user_sign_in", { :alert => "Incorrect email or password." })
       else
         session.store(:user_id, user.id)
-        redirect_to("/", { :notice => "Signed in successfully." })
+        redirect_to("/", { :notice => "Welcome back, "+user.username+"!" })
       end
     else
       redirect_to("/user_sign_in", { :alert => "No user with that email address." })
