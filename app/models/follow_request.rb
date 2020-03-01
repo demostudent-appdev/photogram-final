@@ -18,4 +18,9 @@ class FollowRequest < ApplicationRecord
       return request.status
     end
   end
+
+  def request_sender
+    return User.where({ :id => self.sender_id}).first
+  end
+
 end

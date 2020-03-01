@@ -81,5 +81,8 @@ class User < ApplicationRecord
     return FollowRequest.request_status(self.id, user_id)
   end
 
+  def pending_received_follow_requests
+    return FollowRequest.where({ :recipient_id => self.id }).where({ :status => "pending"})
+  end
 
 end

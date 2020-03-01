@@ -55,17 +55,17 @@ class UsersController < ApplicationController
   def destroy
     @current_user.destroy
     reset_session
-    
     redirect_to("/", { :notice => "User account cancelled" })
   end
 
   def create_follow_request
     sender = @current_user
+    sender_id = sender.id
     leader_id = params.fetch("query_recipient_id")
     leader = User.where({ :id => leader_id}).first
     new_request = FollowRequest.new
-    new_request.recipient_id = leader
-    new_request.sender_id = sender
+    new_request.recipient_id = leader_id
+    new_request.sender_id = sender_id
     if leader.is_private
       new_request.status = "pending"
     else
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
 
     if save_status == true
       if new_request.status == "accepted"   
-        redirect_to("/users/"+leader_id)
+        redirect_to("/users/"+leader.username)
       else
         redirect_to("/users", { :notice => "User request pending"})
       end
@@ -84,10 +84,48 @@ class UsersController < ApplicationController
     end
   end
 
+  def modify_request
+    user = @current_user
+    status = params.fetch("query_status")
+    the_id = params.fetch("request_id").to_i
+    request = FollowRequest.where({ :id => the_id}).first
+    request.status = status
+    save_status = request.save
+    if save_status == true
+      redirect_to("/users/"+user.username)
+    else
+      redirect_to("/users"+user.username, { :alert => "Error while updating follow request"})
+    end
+  end
+
+  def delete_request
+    sender = @current_user
+    sender_id = sender.id
+    receiver_id = params.fetch("receiver_id")
+    request = FollowRequest.where({ :sender_id => sender_id}).where({ :recipient_id => receiver_id}).first
+    request.destroy
+    redirect_to("/users")
+  end
+
   def show
     the_username = params.fetch("the_username")
     @user = User.where({ :username => the_username }).at(0)
     render({ :template => "users/show.html.erb" })
+  end
+
+  def show_explore
+    the_username = params.fetch("the_username")
+    what_to_show = params.fetch("explore")
+    @user = User.where({ :username => the_username }).at(0)
+      if what_to_show == "liked_photos"
+        render({ :template => "users/show.html.erb" })
+      elsif what_to_show == "feed"
+        render({ :template => "users/show.html.erb" })
+      elsif what_to_show == "discover"
+        render({ :template => "users/show.html.erb" })
+      else
+        redirect_to("/")
+      end
   end
 
   def update_with_user_id

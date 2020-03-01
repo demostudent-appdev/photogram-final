@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get("/", { :controller => "users", :action => "index" })
   get("/users", { :controller => "users", :action => "index" })
   get("/users/:the_username", {:controller => "users", :action => "show"})
+  get("/users/:the_username/:explore", {:controller => "users", :action => "show_explore"})
   
   # Routes for the User account:
 
@@ -20,7 +21,9 @@ Rails.application.routes.draw do
   get("/cancel_user_account", { :controller => "users", :action => "destroy" })
 
   # FOLLOW
-  post("insert_follow_request", { :controller => "users", :action => "create_follow_request" })
+  post("/insert_follow_request", { :controller => "users", :action => "create_follow_request" })
+  post("/modify_follow_request/:request_id", { :controller => "users", :action => "modify_request" })
+  get("/delete_follow_request/:receiver_id", { :controller => "users", :action => "delete_request" })
 
   # ------------------------------
 

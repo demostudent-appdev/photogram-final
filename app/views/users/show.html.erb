@@ -9,9 +9,26 @@
     <div> <%= @user.followers.count %></div>
     <% if @current_user.id == @user.id%>
       <h4>Pending follow requests</h4>
+      <% @user.pending_received_follow_requests.each do |request| %>
         <ul>
-          To be implemented
+          <li>
+            <%=request.request_sender.username%>
+            <form action=<%="/modify_follow_request/#{request.id}"%> method="post">
+              <input name="query_status" value="accepted" type="hidden">
+              <button>
+                Accept
+              </button>
+            </form>
+
+            <form action=<%="/modify_follow_request/#{request.id}"%> method="post">
+              <input name="query_status" value="rejected" type="hidden">
+              <button>
+                Reject
+              </button>
+            </form>
+          </li>
         </ul>
+      <% end %>
     </dd>
     <% end %>
   <dt>Following</dt>
@@ -41,13 +58,13 @@
       <a href=<%="/users/#{@user.username}"%>>Profile</a>
     </li>
     <li>
-      <a href="/">Liked photos</a>
+      <a href=<%="/users/#{@user.username}/liked"%>>Liked photos</a>
     </li>
     <li>
-      <a href="/">Feed</a>
+      <a href=<%="/users/#{@user.username}/feed"%>>Feed</a>
     </li>
     <li>
-      <a href="/">Discover</a>
+      <a href=<%="/users/#{@user.username}/discover"%>>Discover</a>
     </li>
   </ul>
 </nav>
