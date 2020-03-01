@@ -1,4 +1,7 @@
 class PhotosController < ApplicationController
+  
+  skip_before_action(:force_user_sign_in, {:only => [:index]})
+  
   def index
     array_of_public_user_ids = User.where({:is_private => FALSE }).pluck(:id)
     @photos = Photo.where({ :owner_id => array_of_public_user_ids}).order({:created_at => :desc })

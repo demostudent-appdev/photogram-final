@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  # skip_before_action(:force_user_sign_in, { :only => [:new_registration_form, :create] })
-  
+  skip_before_action(:force_user_sign_in, {:only => [:index, :new_registration_form, :create]})
+
   def index
     @users = User.all.order({ :username => :asc })
     render({ :template => "users/index.html.erb" })
