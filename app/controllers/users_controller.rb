@@ -110,15 +110,23 @@ class UsersController < ApplicationController
   def show
     the_username = params.fetch("the_username")
     @user = User.where({ :username => the_username }).at(0)
+    # Check if @user is @current_user
+    if @user.id == @current_user.id
+      render({ :template => "users/show.html.erb" })
+      return
+    end
     # Check if @user is not private
     if @user.is_private == false
-        render({ :template => "users/show.html.erb" })
+      render({ :template => "users/show.html.erb" })
+      return
     else
       # Check if @user is followed by @current_user
       if @current_user.follow_status?(@user.id) == "accepted"
         render({ :template => "users/show.html.erb" })
+        return
       else
         redirect_to("/users", { :alert => "User must accept your request"})
+        return
       end
     end
   end
@@ -127,7 +135,7 @@ class UsersController < ApplicationController
     the_username = params.fetch("the_username")
     what_to_show = params.fetch("explore")
     @user = User.where({ :username => the_username }).at(0)
-      if what_to_show == "liked"
+      if what_to_show == "liked_photos"
         render({ :template => "users/show_liked.html.erb" })
       elsif what_to_show == "feed"
         render({ :template => "users/show_feed.html.erb" })
@@ -140,7 +148,7 @@ class UsersController < ApplicationController
 
   def update_with_user_id
     @user = @current_user
-    @user.is_private = params.fetch("query_is_private", false)
+    @user.is_private = params.fetch("query_private", false)
     @user.username = params.fetch("query_username")
     
     if @user.valid?
