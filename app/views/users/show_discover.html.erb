@@ -69,7 +69,7 @@
   </ul>
 </nav>
 
-<h2>Own photos (<%=@user.own_photos.count%>)</h2>
+<h2>Discover (<%=@user.discover.count%>)</h2>
 
 <table border="1">
   <tr>
@@ -81,7 +81,7 @@
     <th></th>
   </tr>
 
-  <% @user.own_photos.each do |photo| %>
+  <% @user.discover.each do |photo| %>
   <tr>
     <td>
       <img src="<%= photo.image %>">

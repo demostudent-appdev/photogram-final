@@ -118,11 +118,11 @@ class UsersController < ApplicationController
     what_to_show = params.fetch("explore")
     @user = User.where({ :username => the_username }).at(0)
       if what_to_show == "liked_photos"
-        render({ :template => "users/show.html.erb" })
+        render({ :template => "/users/show_liked.html.erb" })
       elsif what_to_show == "feed"
-        render({ :template => "users/show.html.erb" })
+        render({ :template => "/users/show_feed.html.erb" })
       elsif what_to_show == "discover"
-        render({ :template => "users/show.html.erb" })
+        render({ :template => "/users/show_discover.html.erb" })
       else
         redirect_to("/")
       end
