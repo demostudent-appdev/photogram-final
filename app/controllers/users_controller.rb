@@ -110,7 +110,17 @@ class UsersController < ApplicationController
   def show
     the_username = params.fetch("the_username")
     @user = User.where({ :username => the_username }).at(0)
-    render({ :template => "users/show.html.erb" })
+    # Check if @user is not private
+    if @user.is_private == false
+        render({ :template => "users/show.html.erb" })
+    else
+      # Check if @user is followed by @current_user
+      if @current_user.follow_status?(@user.id) == "accepted"
+        render({ :template => "users/show.html.erb" })
+      else
+        redirect_to("/users", { :alert => "User must accept your request"})
+      end
+    end
   end
 
   def show_explore

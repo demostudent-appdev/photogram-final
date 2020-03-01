@@ -2,7 +2,6 @@ class PhotosController < ApplicationController
   def index
     array_of_public_user_ids = User.where({:is_private => FALSE }).pluck(:id)
     @photos = Photo.where({ :owner_id => array_of_public_user_ids}).order({:created_at => :desc })
-    # Photo.all.order({:created_at => :desc })
     render({ :template => "photos/photos.html.erb" })
   end
 
