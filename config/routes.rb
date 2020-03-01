@@ -48,6 +48,13 @@ Rails.application.routes.draw do
   
   # UPDATE
   post("/modify_photo/:path_id", { :controller => "photos", :action => "update" })
+
+  # COMMENT
+  post("/insert_comment", { :controller => "photos", :action => "comment_photo" })
+
+  # LIKE
+  post("/insert_like", { :controller => "photos", :action => "like_photo" })
+  get("/delete_like/:like_id", { :controller => "photos", :action => "unlike_photo" })
   
   # DELETE
   get("/delete_photo/:path_id", { :controller => "photos", :action => "destroy" })

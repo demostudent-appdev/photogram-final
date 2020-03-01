@@ -8,7 +8,7 @@ class PhotosController < ApplicationController
 
   def show
     the_id = params.fetch("path_id")
-    @photo = Photo.where({:id => the_id }).at(0)
+    @photo = Photo.where({ :id => the_id }).at(0)
     render({ :template => "photos/show.html.erb" })
   end
 
@@ -31,12 +31,8 @@ class PhotosController < ApplicationController
   def update
     the_id = params.fetch("path_id")
     @photo = Photo.where({ :id => the_id }).at(0)
-
     @photo.caption = params.fetch("query_caption")
     @photo.image = params.fetch("query_image")
-    @photo.owner_id = params.fetch("query_owner_id")
-    @photo.comments_count = params.fetch("query_comments_count")
-    @photo.likes_count = params.fetch("query_likes_count")
 
     if @photo.valid?
       @photo.save
@@ -46,12 +42,48 @@ class PhotosController < ApplicationController
     end
   end
 
+  def comment_photo
+    comment = Comment.new
+    body = params.fetch("query_body")
+    author_id = @current_user.id
+    photo_id = params.fetch("query_photo_id") 
+    comment.body = body
+    comment.author_id = author_id
+    comment.photo_id = photo_id
+    comment.save
+    photo = Photo.where({:id => photo_id}).first
+    photo.comments_count = photo.comments_count + 1
+    photo.save
+    redirect_to("/photos/#{photo_id}")
+  end
+
+  def like_photo
+    like = Like.new
+    like.fan_id = @current_user.id
+    photo_id = params.fetch("query_photo_id")
+    like.photo_id = photo_id
+    like.save
+    photo = Photo.where({:id => photo_id}).first
+    photo.likes_count = photo.likes_count + 1
+    photo.save
+    redirect_to("/photos/#{photo_id}")
+  end
+
+  def unlike_photo
+    the_id = params.fetch("like_id")
+    like = Like.where({:id => the_id}).first
+    photo_id = like.photo_id
+    photo = Photo.where({:id => photo_id}).first
+    photo.likes_count = photo.likes_count - 1
+    photo.save
+    like.destroy
+    redirect_to("/photos/#{photo_id}")
+  end
+
   def destroy
     the_id = params.fetch("path_id")
     @photo = Photo.where({ :id => the_id }).at(0)
-
     @photo.destroy
-
     redirect_to("/photos", { :notice => "Photo deleted successfully."} )
   end
 end

@@ -35,5 +35,14 @@ class Photo < ApplicationRecord
   def fan_list
     return self.fans.pluck(:username).to_sentence
   end
+
+  def liked_by_user(user_id)
+    users_who_like_photo = self.fans.pluck(:id)
+    return users_who_like_photo.include?(user_id)
+  end
+
+  def like_user(user_id)
+    return Like.where({ :photo_id => self.id}).where({ :fan_id => user_id}).first
+  end
   
 end
